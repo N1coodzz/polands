@@ -171,7 +171,8 @@
       rollInner.innerHTML = generateRollItems(60, jackpotImage);
 
       const itemWidth = rollInner.children[0].getBoundingClientRect().width + 6;
-      const jackpotIndex = 59; // индекс джекпота до дублирования
+      const isMobile = window.innerWidth <= 500;
+      const jackpotIndex = isMobile ? rollInner.children.length - 4 : 59; // позиция для мобилки ближе к центру
       const offset = itemWidth * (jackpotIndex - 2);
 
       rollInner.style.transition = 'none';
