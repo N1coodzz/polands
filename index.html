@@ -72,8 +72,8 @@
       will-change: transform;
     }
     .roll-item {
-      min-width: 120px;
-      margin: 0 5px;
+      min-width: 124px;
+      margin: 0 3px;
       background: #222;
       border-radius: 8px;
       padding: 10px;
@@ -122,22 +122,7 @@
   <div id="roll-stage">
     <div class="roll-track">
       <div style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); z-index: 10; font-size: 36px; color: #ffd700;">▼</div>
-      <div class="roll-inner" id="roll-inner">
-        <div class="roll-item">🔫</div>
-        <div class="roll-item">🔪</div>
-        <div class="roll-item">💰 JACKPOT</div>
-        <div class="roll-item">💼</div>
-        <div class="roll-item">🔫</div>
-        <div class="roll-item">💣</div>
-        <div class="roll-item">🎰</div>
-        <div class="roll-item">💣</div>
-        <div class="roll-item jackpot">🎉 100 FS</div>
-        <div class="roll-item">💣</div>
-        <div class="roll-item">🔪</div>
-        <div class="roll-item">💰 JACKPOT</div>
-        <div class="roll-item">💼</div>
-        <div class="roll-item">💰 JACKPOT</div>
-      </div>
+      <div class="roll-inner" id="roll-inner"></div>
     </div>
   </div>
 
@@ -156,27 +141,40 @@
   </div>
 
   <script>
+    const items = ['🔫', '💼', '🎰', '💣', '🔪'];
+
+    function generateRollItems(count, jackpotSymbol) {
+      const arr = [];
+      for (let i = 0; i < count - 1; i++) {
+        arr.push(`<div class="roll-item">${items[Math.floor(Math.random() * items.length)]}</div>`);
+      }
+      arr.push(`<div class="roll-item jackpot">${jackpotSymbol}</div>`);
+      return arr.join('');
+    }
+
     function startRoll() {
       document.getElementById('case-stage').style.display = 'none';
       document.getElementById('roll-stage').style.display = 'block';
 
       const rollInner = document.getElementById('roll-inner');
-      const itemWidth = 130;
-      const jackpotIndex = 8;
+      rollInner.innerHTML = generateRollItems(60, '🎉 100 FS');
+
+      const itemWidth = rollInner.children[0].getBoundingClientRect().width + 6;
+      const jackpotIndex = rollInner.children.length - 1;
       const offset = itemWidth * (jackpotIndex - 2);
 
       rollInner.style.transition = 'none';
       rollInner.style.transform = 'translateX(0)';
 
       requestAnimationFrame(() => {
-        rollInner.style.transition = 'transform 10s cubic-bezier(1.0, 1.0, 1.0, 1)';
+        rollInner.style.transition = 'transform 7s cubic-bezier(0.5, 0, 0.25, 1)';
         rollInner.style.transform = `translateX(-${offset}px)`;
       });
 
       setTimeout(() => {
         document.getElementById('roll-stage').style.display = 'none';
         document.getElementById('win-stage').style.display = 'block';
-      }, 11000);
+      }, 8000);
     }
   </script>
 </body>
