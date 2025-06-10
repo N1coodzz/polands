@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Otwórz Skrzynię i Zdobądź Bonus</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d0d0d;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #00ff9c;
+    }
+    .case-image {
+      width: 200px;
+      margin: 20px auto;
+      animation: glowPulse 2s infinite;
+    }
+    @keyframes glowPulse {
+      0% { transform: scale(1); filter: drop-shadow(0 0 5px #ff4444); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 15px #ff4444); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 5px #ff4444); }
+    }
+    button {
+      padding: 15px 25px;
+      background-color: #ffa500;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+    #roll-stage {
+      display: none;
+      margin-top: 30px;
+    }
+    .roll-track {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+      background: #1a1a1a;
+      border: 2px solid #00ff9c;
+      padding: 10px 0;
+      position: relative;
+    }
+    .roll-track::before,
+    .roll-track::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 33%;
+      height: 100%;
+      background: linear-gradient(to right, #0d0d0d, transparent);
+      z-index: 2;
+    }
+    .roll-track::after {
+      right: 0;
+      transform: rotateY(180deg);
+    }
+    .roll-track::before {
+      left: 0;
+    }
+    .roll-inner {
+      display: flex;
+      transition: transform 10s ease-in-out;
+    }
+    .roll-item {
+      min-width: 120px;
+      margin: 0 5px;
+      background: #222;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.9em;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .jackpot {
+      background: gold;
+      color: black;
+      font-weight: bold;
+    }
+    .cta-button {
+      display: inline-block;
+      margin-top: 30px;
+      background: #00ff9c;
+      color: #000;
+      padding: 15px 25px;
+      font-weight: bold;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+    .bonus-list {
+      text-align: left;
+      max-width: 400px;
+      margin: 20px auto;
+      font-size: 1em;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <h1>Otwórz Skrzynię i Odbierz 100 Darmowych Spinów!</h1>
+
+  <div id="case-stage">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <img src="https://i.imgur.com/j0ffgAc.png" alt="Case" class="case-image">
+      <button onclick="startRoll()" style="margin-top: 20px;">Unlock Container</button>
+    </div>
+  </div>
+
+  <div id="roll-stage">
+    <div class="roll-track" style="position: relative;">
+      <div style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); z-index: 10; font-size: 36px; color: #00ff9c;">▼</div>
+      <div class="roll-inner" id="roll-inner">
+        <!-- Items repeated for roll effect -->
+        <div class="roll-item">🔫</div>
+        <div class="roll-item">🔪</div>
+        <div class="roll-item">💰 JACKPOT</div>
+        <div class="roll-item">💼</div>
+        <div class="roll-item">🔫</div>
+        <div class="roll-item">💣</div>
+        <div class="roll-item">🎰</div>
+        <div class="roll-item">💣</div>
+        <div class="roll-item jackpot">🎉 100 FS</div>
+        <div class="roll-item">💣</div>
+        <div class="roll-item">🔪</div>
+        <div class="roll-item">💰 JACKPOT</div>
+        <div class="roll-item">💼</div>
+        <div class="roll-item">💰 JACKPOT</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="win-stage" style="display:none;">
+    <h2>🎉 Gratulacje! Oto Twoje Bonusy Powitalne:</h2>
+    <div class="bonus-list">
+      <ul>
+        <li><strong>Bonus powitalny do kasyna:</strong><br>100% do 2170 zł + 200 darmowych spinów</li>
+        <li><strong>Cashback powitalny w kasynie na żywo:</strong><br>10% do 870 zł</li>
+        <li><strong>Bonus sportowy za pierwszy depozyt:</strong><br>100% do 435 zł</li>
+        <li><strong>Weekendowe i cotygodniowe doładowania:</strong><br>50% do 3040 zł + 50 darmowych spinów</li>
+        <li><strong>Różne bonusy cashback:</strong><br>od 10% do 25% – do 13 000 zł</li>
+      </ul>
+    </div>
+    <a class="cta-button" href="#">Zabierz Bonus →</a>
+  </div>
+
+  <script>
+    function startRoll() {
+      document.getElementById('case-stage').style.display = 'none';
+      document.getElementById('roll-stage').style.display = 'block';
+
+      const rollInner = document.getElementById('roll-inner');
+      const itemWidth = 130;
+      const jackpotIndex = 8; // index for 🎉 100 FS
+      const offset = itemWidth * (jackpotIndex - 2); // show 2 items before and after
+
+      rollInner.style.transform = `translateX(-${offset}px)`;
+      rollInner.style.transition = 'transform 10s ease-in-out';
+
+      setTimeout(() => {
+        document.getElementById('roll-stage').style.display = 'none';
+        document.getElementById('win-stage').style.display = 'block';
+      }, 11000);
+    }
+  </script>
+</body>
+</html>
