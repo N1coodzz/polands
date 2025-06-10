@@ -88,6 +88,10 @@
       color: black;
       font-weight: bold;
     }
+    .jackpot img {
+      max-width: 60px;
+      max-height: 60px;
+    }
     .cta-button {
       display: inline-block;
       margin-top: 30px;
@@ -143,12 +147,18 @@
   <script>
     const items = ['🔫', '💼', '🎰', '💣', '🔪'];
 
-    function generateRollItems(count, jackpotSymbol) {
+    function generateRollItems(count, jackpotHTML) {
       const arr = [];
       for (let i = 0; i < count - 1; i++) {
-        arr.push(`<div class="roll-item">${items[Math.floor(Math.random() * items.length)]}</div>`);
+        const icon = items[Math.floor(Math.random() * items.length)];
+        arr.push(`<div class="roll-item">${icon}</div>`);
       }
-      arr.push(`<div class="roll-item jackpot">${jackpotSymbol}</div>`);
+      arr.push(`<div class="roll-item jackpot">${jackpotHTML}</div>`);
+
+      for (let i = count - 6; i < count - 1; i++) {
+        arr.push(arr[i]);
+      }
+
       return arr.join('');
     }
 
@@ -157,10 +167,11 @@
       document.getElementById('roll-stage').style.display = 'block';
 
       const rollInner = document.getElementById('roll-inner');
-      rollInner.innerHTML = generateRollItems(60, '🎉 100 FS');
+      const jackpotImage = '<img src="https://i.imgur.com/5GGWprS.png" alt="Jackpot">';
+      rollInner.innerHTML = generateRollItems(60, jackpotImage);
 
       const itemWidth = rollInner.children[0].getBoundingClientRect().width + 6;
-      const jackpotIndex = rollInner.children.length - 1;
+      const jackpotIndex = 59; // индекс джекпота до дублирования
       const offset = itemWidth * (jackpotIndex - 2);
 
       rollInner.style.transition = 'none';
@@ -176,6 +187,7 @@
         document.getElementById('win-stage').style.display = 'block';
       }, 8000);
     }
+    window.startRoll = startRoll;
   </script>
 </body>
 </html>
