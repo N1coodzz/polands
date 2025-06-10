@@ -157,23 +157,31 @@
   </div>
 
   <script>
-    function startRoll() {
-      document.getElementById('case-stage').style.display = 'none';
-      document.getElementById('roll-stage').style.display = 'block';
+  function startRoll() {
+    document.getElementById('case-stage').style.display = 'none';
+    document.getElementById('roll-stage').style.display = 'block';
 
-      const rollInner = document.getElementById('roll-inner');
-      const itemWidth = 130;
-      const jackpotIndex = 8; // index for 🎉 100 FS
-      const offset = itemWidth * (jackpotIndex - 2); // show 2 items before and after
+    const rollInner = document.getElementById('roll-inner');
+    const itemWidth = 130;
+    const jackpotIndex = 8; // 🎉 100 FS
+    const offset = itemWidth * (jackpotIndex - 2);
 
-      rollInner.style.transform = `translateX(-${offset}px)`;
+    // Сначала сбрасываем transform
+    rollInner.style.transition = 'none';
+    rollInner.style.transform = 'translateX(0)';
+
+    // Затем в следующем кадре задаём анимацию
+    requestAnimationFrame(() => {
       rollInner.style.transition = 'transform 10s ease-in-out';
+      rollInner.style.transform = `translateX(-${offset}px)`;
+    });
 
-      setTimeout(() => {
-        document.getElementById('roll-stage').style.display = 'none';
-        document.getElementById('win-stage').style.display = 'block';
-      }, 11000);
-    }
-  </script>
+    // Показ выигрыша через 1 секунду после прокрутки
+    setTimeout(() => {
+      document.getElementById('roll-stage').style.display = 'none';
+      document.getElementById('win-stage').style.display = 'block';
+    }, 11000);
+  }
+</script>
 </body>
 </html>
