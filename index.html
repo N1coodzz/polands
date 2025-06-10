@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Otwórz Skrzynię i Zdobądź Bonus</title>
   <style>
     body {
       margin: 0;
-      background-color: #0d0d0d;
+      background-color: #2c0d0d;
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
     }
     h1 {
-      color: #00ff9c;
+      color: #ffd700;
     }
     .case-image {
       width: 200px;
@@ -22,13 +22,13 @@
       animation: glowPulse 2s infinite;
     }
     @keyframes glowPulse {
-      0% { transform: scale(1); filter: drop-shadow(0 0 5px #ff4444); }
-      50% { transform: scale(1.05); filter: drop-shadow(0 0 15px #ff4444); }
-      100% { transform: scale(1); filter: drop-shadow(0 0 5px #ff4444); }
+      0% { transform: scale(1); filter: drop-shadow(0 0 5px #ffd700); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 15px #ffd700); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 5px #ffd700); }
     }
     button {
       padding: 15px 25px;
-      background-color: #ffa500;
+      background-color: #ffd700;
       color: #000;
       font-weight: bold;
       border: none;
@@ -45,8 +45,8 @@
       max-width: 600px;
       margin: 0 auto;
       overflow: hidden;
-      background: #1a1a1a;
-      border: 2px solid #00ff9c;
+      background: #3b1e1e;
+      border: 2px solid #ffd700;
       padding: 10px 0;
       position: relative;
     }
@@ -69,7 +69,7 @@
     }
     .roll-inner {
       display: flex;
-      transition: transform 10s ease-in-out;
+      will-change: transform;
     }
     .roll-item {
       min-width: 120px;
@@ -91,7 +91,7 @@
     .cta-button {
       display: inline-block;
       margin-top: 30px;
-      background: #00ff9c;
+      background: #ffd700;
       color: #000;
       padding: 15px 25px;
       font-weight: bold;
@@ -114,16 +114,15 @@
 
   <div id="case-stage">
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-      <img src="https://i.imgur.com/j0ffgAc.png" alt="Case" class="case-image">
+      <img src="https://i.imgur.com/j0ffgAc.png" alt="Case" class="case-image" />
       <button onclick="startRoll()" style="margin-top: 20px;">Unlock Container</button>
     </div>
   </div>
 
   <div id="roll-stage">
-    <div class="roll-track" style="position: relative;">
-      <div style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); z-index: 10; font-size: 36px; color: #00ff9c;">▼</div>
+    <div class="roll-track">
+      <div style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); z-index: 10; font-size: 36px; color: #ffd700;">▼</div>
       <div class="roll-inner" id="roll-inner">
-        <!-- Items repeated for roll effect -->
         <div class="roll-item">🔫</div>
         <div class="roll-item">🔪</div>
         <div class="roll-item">💰 JACKPOT</div>
@@ -157,31 +156,28 @@
   </div>
 
   <script>
-  function startRoll() {
-    document.getElementById('case-stage').style.display = 'none';
-    document.getElementById('roll-stage').style.display = 'block';
+    function startRoll() {
+      document.getElementById('case-stage').style.display = 'none';
+      document.getElementById('roll-stage').style.display = 'block';
 
-    const rollInner = document.getElementById('roll-inner');
-    const itemWidth = 130;
-    const jackpotIndex = 8; // 🎉 100 FS
-    const offset = itemWidth * (jackpotIndex - 2);
+      const rollInner = document.getElementById('roll-inner');
+      const itemWidth = 130;
+      const jackpotIndex = 8;
+      const offset = itemWidth * (jackpotIndex - 2);
 
-    // Сначала сбрасываем transform
-    rollInner.style.transition = 'none';
-    rollInner.style.transform = 'translateX(0)';
+      rollInner.style.transition = 'none';
+      rollInner.style.transform = 'translateX(0)';
 
-    // Затем в следующем кадре задаём анимацию
-    requestAnimationFrame(() => {
-      rollInner.style.transition = 'transform 10s ease-in-out';
-      rollInner.style.transform = `translateX(-${offset}px)`;
-    });
+      requestAnimationFrame(() => {
+        rollInner.style.transition = 'transform 10s cubic-bezier(1.0, 1.0, 1.0, 1)';
+        rollInner.style.transform = `translateX(-${offset}px)`;
+      });
 
-    // Показ выигрыша через 1 секунду после прокрутки
-    setTimeout(() => {
-      document.getElementById('roll-stage').style.display = 'none';
-      document.getElementById('win-stage').style.display = 'block';
-    }, 11000);
-  }
-</script>
+      setTimeout(() => {
+        document.getElementById('roll-stage').style.display = 'none';
+        document.getElementById('win-stage').style.display = 'block';
+      }, 11000);
+    }
+  </script>
 </body>
 </html>
