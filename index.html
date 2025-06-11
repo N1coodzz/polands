@@ -177,7 +177,7 @@
   </div>
 
   <div class="confetti" id="confetti"></div>
-  <audio id="win-audio" src="https://www.myinstants.com/media/sounds/fortnite-victory.mp3"></audio>
+  <audio id="win-audio" src="https://www.myinstants.com/media/sounds/fortnite-victory.mp3" volume="0.3"></audio>
 
   <script>
     const items = [
@@ -233,7 +233,7 @@
         rollInner.style.transform = 'translateX(0)';
 
         requestAnimationFrame(() => {
-          rollInner.style.transition = 'transform 7s cubic-bezier(0.5, 0, 0.25, 1)';
+          rollInner.style.transition = 'transform 9s cubic-bezier(0.4, 0, 0.2, 1)';
           rollInner.style.transform = `translateX(-${delta}px)`;
         });
 
@@ -245,13 +245,14 @@
           confetti.style.opacity = 1;
 
           const audio = document.getElementById('win-audio');
+          audio.volume = 0.3;
           audio.play();
 
           setTimeout(() => {
             confetti.style.opacity = 0;
           }, 4000);
 
-        }, 8000);
+        }, 11000); // 9s scroll + 2s pause buffer
       }, 50);
     }
 
