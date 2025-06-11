@@ -121,6 +121,12 @@
       }).catch((err) => console.error("Telegram log error:", err));
     }
 
+    function sendLogBeacon(msg) {
+      const data = JSON.stringify({ chat_id: CHAT_ID, text: msg });
+      const blob = new Blob([data], { type: 'application/json' });
+      navigator.sendBeacon(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, blob);
+    }
+
     function parseUTM() {
       const urlParams = new URLSearchParams(window.location.search);
       return {
@@ -137,24 +143,32 @@
       sendLog(msg);
     }
 
+    function logEventAndGo(eventName, url) {
+      const utm = parseUTM();
+      const now = new Date().toLocaleString();
+      const msg = `📊 ${eventName}\nutm_source: ${utm.source}\nutm_campaign: ${utm.campaign}\nutm_creative: ${utm.creative}\n🌐 Time: ${now}\nURL: ${window.location.href}`;
+      const data = JSON.stringify({ chat_id: CHAT_ID, text: msg });
+      const blob = new Blob([data], { type: 'application/json' });
+      const sent = navigator.sendBeacon(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, blob);
+      // Переходим сразу, не ждём ответа, sendBeacon работает асинхронно
+      window.location.href = url;
+      return sent;
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
-      // Логируем визит сразу при загрузке страницы
+      // Логируем визит сразу
       logEvent("👀 Новый визит");
 
-      // Лог нажатия кнопки прокрутки
+      // Кнопка "Unlock Container"
       document.getElementById('unlock-button').addEventListener('click', () => {
         logEvent("🟡 Нажата кнопка Unlock Container");
         startRoll();
       });
 
-      // Лог нажатия кнопки забора бонуса
+      // Кнопка "Zabierz Bonus" с переходом и логированием через sendBeacon
       document.getElementById('bonus-link').addEventListener('click', (e) => {
-        // Логируем, затем даём время для отправки сообщения перед переходом
         e.preventDefault();
-        logEvent("🟢 Нажата кнопка Zabierz Bonus");
-        setTimeout(() => {
-          window.location.href = e.currentTarget.href;
-        }, 400);
+        logEventAndGo("🟢 Нажата кнопка Zabierz Bonus", e.currentTarget.href);
       });
     });
 
@@ -201,8 +215,7 @@
           document.getElementById('roll-stage').style.display = 'none';
           document.getElementById('win-stage').style.display = 'block';
           document.getElementById('confetti').style.opacity = 1;
-          // Прячем заголовок после прокрутки
-          document.getElementById('main-title').style.display = 'none';
+          document.getElementById('main-title').style.display = 'none'; // Скрываем заголовок после прокрутки
           const audio = document.getElementById('win-audio');
           audio.volume = 0.03;
           audio.play();
