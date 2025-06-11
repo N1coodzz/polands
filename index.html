@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Otwórz Skrzynię i Zdobądź Bonus</title>
+  <style>
+    body { margin: 0; background-color: #2c0d0d; color: white; font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    h1 { color: #ffd700; }
+    .case-image { width: 200px; margin: 20px auto; animation: glowPulse 2s infinite; }
+    @keyframes glowPulse {
+      0% { transform: scale(1); filter: drop-shadow(0 0 5px #ffd700); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 15px #ffd700); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 5px #ffd700); }
+    }
+    button {
+      padding: 15px 25px; background-color: #ffd700; color: #000;
+      font-weight: bold; border: none; border-radius: 10px;
+      font-size: 1.1em; cursor: pointer;
+    }
+    #roll-stage { display: none; margin-top: 30px; }
+    .roll-track {
+      width: 100%; max-width: 600px; margin: 0 auto; overflow: hidden;
+      background: #3b1e1e; border: 2px solid #ffd700; padding: 10px 0;
+      position: relative;
+    }
+    .roll-track::before, .roll-track::after {
+      content: ""; position: absolute; top: 0; width: 33%; height: 100%;
+      background: linear-gradient(to right, #2c0d0d, transparent); z-index: 2;
+    }
+    .roll-track::after { right: 0; transform: rotateY(180deg); }
+    .roll-track::before { left: 0; }
+    .roll-inner {
+      display: flex; will-change: transform;
+    }
+    .roll-item {
+      min-width: 124px; margin: 0 3px; background: #222;
+      border-radius: 8px; padding: 10px; font-size: 0.9em;
+      color: #fff; display: flex; justify-content: center; align-items: center;
+    }
+    .roll-item img { max-width: 50px; max-height: 50px; }
+    .jackpot { background: gold; color: black; font-weight: bold; }
+    .jackpot img { max-width: 60px; max-height: 60px; }
+    .cta-button {
+      display: inline-block; margin-top: 30px;
+      background: #ffd700; color: #000;
+      padding: 15px 25px; font-weight: bold; font-size: 1.2em;
+      border: none; border-radius: 10px; text-decoration: none;
+    }
+    .bonus-list {
+      text-align: left; max-width: 400px; margin: 20px auto;
+      font-size: 1em; line-height: 1.6;
+    }
+    @keyframes winnerGlow {
+      0% { box-shadow: 0 0 0px gold; transform: scale(1); }
+      50% { box-shadow: 0 0 25px gold; transform: scale(1.1); }
+      100% { box-shadow: 0 0 0px gold; transform: scale(1); }
+    }
+    .confetti {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background-image: url('https://i.imgur.com/pL9QrVT.gif');
+      background-size: cover; z-index: 9999;
+      opacity: 0; transition: opacity 0.5s ease;
+    }
+    #win-stage {
+      display: none;
+      animation: winnerGlow 1.5s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="main-title">🔓 Skrzynia z bonusem czeka – tylko jeden klik!</h1>
+
+  <div id="case-stage">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <img src="https://i.imgur.com/j0ffgAc.png" alt="Case" class="case-image" />
+      <button id="unlock-button" style="margin-top: 20px;">Unlock Container</button>
+    </div>
+  </div>
+
+  <div id="roll-stage">
+    <div class="roll-track">
+      <div style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); z-index: 10; font-size: 36px; color: #ffd700;">▼</div>
+      <div class="roll-inner" id="roll-inner"></div>
+    </div>
+    <div id="roll-info" style="margin-top: 30px; font-size: 1.1em; color: #ffd700;">
+      🧲 „System analizuje... Czy dziś masz szczęście?”<br/>
+      <span id="roll-count"></span><br/>
+      <span id="jackpot-count"></span><br/>
+      <span id="jackpot-rate"></span>
+    </div>
+  </div>
+
+  <div id="win-stage">
+    <h2>🎉 Trafiłeś JACKPOT! Tylko Ty odblokowałeś ten bonus!</h2>
+    <div class="bonus-list">
+      <ul>
+        <li>🎰 <strong>Kasynowy Power Start:</strong> 100% do 2170 zł + 200 darmowych spinów!</li>
+        <li>🃏 <strong>Kasyno na żywo:</strong> 10% cashback do 870 zł – graj bez stresu!</li>
+        <li>⚽ <strong>Zakłady sportowe:</strong> 100% do 435 zł na Twój pierwszy kupon!</li>
+        <li>🎁 <strong>Weekendowe i tygodniowe doładowania:</strong> 50% do 3040 zł + 50 spinów!</li>
+        <li>💸 <strong>Cashback dla każdego:</strong> nawet do 25% – odbierz do 13 000 zł!</li>
+      </ul>
+    </div>
+    <a class="cta-button" id="bonus-link" href="https://5cas6tyri.com/?stag=249392_6848e7c7c3e129f3485963de#popup-reg">Zabierz Bonus →</a>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+  <audio id="win-audio" src="level-win-final.mp3"></audio>
+
+  <script>
+    const TELEGRAM_TOKEN = "7769613529:AAFoIzFtDhohK5QZKc15pw-RSDHydt8a2s0";
+    const CHAT_ID = "7849447238";
+
+    function sendLog(msg) {
+      fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
+      }).catch((err) => console.error("Telegram log error:", err));
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById('bonus-link').addEventListener('click', (e) => {
+        e.preventDefault();
+        const finalURL = "https://5cas6tyri.com/?stag=249392_6848e7c7c3e129f3485963de#popup-reg";
+        sendLog("🟢 Пользователь нажал 'Zabierz Bonus' " + window.location.href);
+        setTimeout(() => {
+          window.location.href = finalURL;
+        }, 500);
+      });
+
+      const btn = document.getElementById('unlock-button');
+      btn.addEventListener('click', () => {
+        sendLog("🟡 Пользователь нажал 'Unlock Container' " + window.location.href);
+        startRoll();
+      });
+    });
+
+    function generateRollItems(count, jackpotHTML) {
+      const items = [
+        '<img src="https://i.imgur.com/0gwqEvT.png" alt="icon1">',
+        '<img src="https://i.imgur.com/UxfHQQ8.png" alt="icon2">',
+        '<img src="https://i.imgur.com/Oeattv2.png" alt="icon3">',
+        '<img src="https://i.imgur.com/z8hpjvs.png" alt="icon4">',
+        '<img src="https://i.imgur.com/1aUaEXH.png" alt="icon5">'
+      ];
+      const arr = [];
+      for (let i = 0; i < count - 1; i++) {
+        const icon = items[Math.floor(Math.random() * items.length)];
+        arr.push(`<div class="roll-item">${icon}</div>`);
+      }
+      arr.push(`<div class="roll-item jackpot">${jackpotHTML}</div>`);
+      for (let i = count - 6; i < count - 1; i++) arr.push(arr[i]);
+      return arr.join('');
+    }
+
+    function startRoll() {
+      document.getElementById('case-stage').style.display = 'none';
+      document.getElementById('roll-stage').style.display = 'block';
+      const rollInner = document.getElementById('roll-inner');
+      rollInner.innerHTML = generateRollItems(60, '<img src="https://i.imgur.com/5GGWprS.png" alt="Jackpot">');
+      setTimeout(() => {
+        const total = Math.floor(Math.random() * 901) + 100;
+        const jackpots = Math.floor(Math.random() * 7) + 3;
+        const jackpotRate = ((jackpots / total) * 100).toFixed(1);
+        document.getElementById('roll-count').textContent = `🎰 Dzisiejsze losowania: ${total}`;
+        document.getElementById('jackpot-count').textContent = `💥 Jackpoty trafione: ${jackpots}`;
+        document.getElementById('jackpot-rate').textContent = `📈 Szansa na jackpot dziś: ${jackpotRate}%`;
+        const track = document.querySelector('.roll-track');
+        const jackpotEl = rollInner.querySelectorAll('.roll-item')[59];
+        const delta = jackpotEl.getBoundingClientRect().left + jackpotEl.offsetWidth / 2 - (track.getBoundingClientRect().left + track.offsetWidth / 2);
+        rollInner.style.transition = 'none';
+        rollInner.style.transform = 'translateX(0)';
+        requestAnimationFrame(() => {
+          rollInner.style.transition = 'transform 9s cubic-bezier(0.4, 0, 0.2, 1)';
+          rollInner.style.transform = `translateX(-${delta}px)`;
+        });
+        setTimeout(() => {
+          document.getElementById('roll-stage').style.display = 'none';
+          document.getElementById('win-stage').style.display = 'block';
+          document.getElementById('confetti').style.opacity = 1;
+          // Скрываем заголовок после окончания прокрутки
+          document.getElementById('main-title').style.display = 'none';
+          const audio = document.getElementById('win-audio');
+          audio.volume = 0.03;
+          audio.play();
+          setTimeout(() => { document.getElementById('confetti').style.opacity = 0; }, 4000);
+        }, 11000);
+      }, 50);
+    }
+  </script>
+</body>
+</html>
