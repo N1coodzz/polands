@@ -205,5 +205,22 @@
       }, 50);
     }
   </script>
+  <script>
+  let backPressedOnce = false;
+
+  history.pushState(null, null, location.href);
+  window.addEventListener("popstate", function (event) {
+    if (!backPressedOnce) {
+      history.pushState(null, null, location.href);
+      alert("Naciśnij jeszcze raz, aby wyjść"); // Польский вариант: "Нажмите еще раз для выхода"
+      backPressedOnce = true;
+      setTimeout(() => backPressedOnce = false, 2000); // сброс через 2 сек
+    } else {
+      // Даем выйти — стандартное поведение
+      history.go(-2);
+    }
+  });
+</script>
+
 </body>
 </html>
