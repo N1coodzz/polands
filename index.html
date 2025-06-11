@@ -57,12 +57,16 @@
       100% { box-shadow: 0 0 0px gold; transform: scale(1); }
     }
     .confetti {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-      background-image: url('https://i.imgur.com/pL9QrVT.gif');
-      background-size: cover; z-index: 9999;
-      opacity: 0; transition: opacity 0.5s ease;
-    }
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  object-fit: cover;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
     #win-stage {
       display: none;
       animation: winnerGlow 1.5s ease-in-out infinite;
@@ -106,7 +110,10 @@
     <a class="cta-button" id="bonus-link" href="https://casinoinfinity.link/h92324da3">Zabierz Bonus</a>
   </div>
 
-  <div class="confetti" id="confetti"></div>
+  <video id="confetti" class="confetti" autoplay muted loop playsinline>
+  <source src="pL9QrVT-ezgif.com-gif-to-mp4-converter.mp4" type="video/mp4" />
+</video>
+
   <audio id="win-audio" src="level-win-final.mp3"></audio>
 
   <script>
