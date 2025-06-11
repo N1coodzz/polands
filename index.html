@@ -46,7 +46,6 @@
       background: #ffd700; color: #000;
       padding: 15px 25px; font-weight: bold; font-size: 1.2em;
       border: none; border-radius: 10px; text-decoration: none;
-      /* Убираем стрелочку */
     }
     .bonus-list {
       text-align: left; max-width: 400px; margin: 20px auto;
@@ -94,14 +93,14 @@
   </div>
 
   <div id="win-stage">
-    <h2>🎉 Trafiłeś JACKPOT! Tylko Ty odblokowałeś ten bonus!</h2>
+    <h2>🎉 Trafиłeś JACKPOT! Tylko Ty odblokowałeś ten bonus!</h2>
     <div class="bonus-list">
       <ul>
         <li>🎰 <strong>Kasynowy Power Start:</strong> 100% do 2170 zł + 200 darmowych spinów!</li>
         <li>🃏 <strong>Kasyno na żywo:</strong> 10% cashback do 870 zł – graj bez stresu!</li>
-        <li>⚽ <strong>Zakłady sportowe:</strong> 100% do 435 zł na Twój pierwszy kupon!</li>
-        <li>🎁 <strong>Weekendowe i tygodniowe doładowania:</strong> 50% do 3040 zł + 50 spinów!</li>
-        <li>💸 <strong>Cashback dla każdego:</strong> nawet do 25% – odbierz do 13 000 zł!</li>
+        <li>⚽ <strong>Zakłady sportowe:</strong> 100% до 435 zł на Twój pierwszy kupon!</li>
+        <li>🎁 <strong>Weekendowe i tygodniowe doładowania:</strong> 50% до 3040 zł + 50 spinów!</li>
+        <li>💸 <strong>Cashback dla każdego:</strong> nawet до 25% – odbierz до 13 000 zł!</li>
       </ul>
     </div>
     <a class="cta-button" id="bonus-link" href="https://casinoinfinity.link/h92324da3">Zabierz Bonus</a>
@@ -135,14 +134,19 @@
       const utm = parseUTM();
       const now = new Date().toLocaleString();
       const msg = `📊 ${eventName}\nutm_source: ${utm.source}\nutm_campaign: ${utm.campaign}\nutm_creative: ${utm.creative}\n🌐 Time: ${now}\nURL: ${window.location.href}`;
-      const data = JSON.stringify({ chat_id: CHAT_ID, text: msg });
-      const blob = new Blob([data], { type: 'application/json' });
-      navigator.sendBeacon(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, blob);
-      window.location.href = url;
+      fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
+      }).finally(() => {
+        setTimeout(() => {
+          window.location.href = url;
+        }, 300);
+      });
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      logEventAndGo("👀 Nowa wizyta", window.location.href);
+      sendLog("👀 Nowa wizyta");
 
       document.getElementById('unlock-button').addEventListener('click', () => {
         sendLog("🟡 Naciśnięto 'Unlock Container' " + window.location.href);
