@@ -121,12 +121,6 @@
       }).catch((err) => console.error("Telegram log error:", err));
     }
 
-    function sendLogBeacon(msg) {
-      const data = JSON.stringify({ chat_id: CHAT_ID, text: msg });
-      const blob = new Blob([data], { type: 'application/json' });
-      navigator.sendBeacon(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, blob);
-    }
-
     function parseUTM() {
       const urlParams = new URLSearchParams(window.location.search);
       return {
@@ -143,32 +137,23 @@
       sendLog(msg);
     }
 
-    function logEventAndGo(eventName, url) {
-      const utm = parseUTM();
-      const now = new Date().toLocaleString();
-      const msg = `📊 ${eventName}\nutm_source: ${utm.source}\nutm_campaign: ${utm.campaign}\nutm_creative: ${utm.creative}\n🌐 Time: ${now}\nURL: ${window.location.href}`;
-      const data = JSON.stringify({ chat_id: CHAT_ID, text: msg });
-      const blob = new Blob([data], { type: 'application/json' });
-      const sent = navigator.sendBeacon(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, blob);
-      // Переходим сразу, не ждём ответа, sendBeacon работает асинхронно
-      window.location.href = url;
-      return sent;
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
       // Логируем визит сразу
       logEvent("👀 Новый визит");
 
-      // Кнопка "Unlock Container"
+      // Логируем клик по Unlock Container и запускаем прокрутку
       document.getElementById('unlock-button').addEventListener('click', () => {
         logEvent("🟡 Нажата кнопка Unlock Container");
         startRoll();
       });
 
-      // Кнопка "Zabierz Bonus" с переходом и логированием через sendBeacon
+      // Логируем клик по Zabierz Bonus и делаем переход с небольшой задержкой
       document.getElementById('bonus-link').addEventListener('click', (e) => {
         e.preventDefault();
-        logEventAndGo("🟢 Нажата кнопка Zabierz Bonus", e.currentTarget.href);
+        logEvent("🟢 Нажата кнопка Zabierz Bonus");
+        setTimeout(() => {
+          window.location.href = e.currentTarget.href;
+        }, 400); // 400 мс задержка для отправки лога
       });
     });
 
