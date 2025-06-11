@@ -46,6 +46,7 @@
       background: #ffd700; color: #000;
       padding: 15px 25px; font-weight: bold; font-size: 1.2em;
       border: none; border-radius: 10px; text-decoration: none;
+      cursor: pointer;
     }
     .bonus-list {
       text-align: left; max-width: 400px; margin: 20px auto;
@@ -85,7 +86,7 @@
       <div class="roll-inner" id="roll-inner"></div>
     </div>
     <div id="roll-info" style="margin-top: 30px; font-size: 1.1em; color: #ffd700;">
-      🧲 „System analizuje... Czy dziś masz szczęście?”<br/>
+      🧲 System analizuje... Czy dziś masz szczęście?<br/>
       <span id="roll-count"></span><br/>
       <span id="jackpot-count"></span><br/>
       <span id="jackpot-rate"></span>
@@ -103,7 +104,7 @@
         <li>💸 <strong>Cashback dla każdego:</strong> nawet do 25% – odbierz do 13 000 zł!</li>
       </ul>
     </div>
-    <a class="cta-button" id="bonus-link" href="https://casinoinfinity.link/h92324da3">Zabierz Bonus →</a>
+    <a class="cta-button" id="bonus-link" href="https://casinoinfinity.link/h92324da3">Zabierz Bonus</a>
   </div>
 
   <div class="confetti" id="confetti"></div>
@@ -114,7 +115,7 @@
     const CHAT_ID = "703605167";
 
     function sendLog(msg) {
-      fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      return fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
@@ -134,26 +135,23 @@
       const utm = parseUTM();
       const now = new Date().toLocaleString();
       const msg = `📊 ${eventName}\nutm_source: ${utm.source}\nutm_campaign: ${utm.campaign}\nutm_creative: ${utm.creative}\n🌐 Time: ${now}\nURL: ${window.location.href}`;
-      sendLog(msg);
+      return sendLog(msg);
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      // Логируем визит сразу
       logEvent("👀 Новый визит");
 
-      // Логируем клик по Unlock Container и запускаем прокрутку
       document.getElementById('unlock-button').addEventListener('click', () => {
         logEvent("🟡 Нажата кнопка Unlock Container");
         startRoll();
       });
 
-      // Логируем клик по Zabierz Bonus и делаем переход с небольшой задержкой
       document.getElementById('bonus-link').addEventListener('click', (e) => {
         e.preventDefault();
-        logEvent("🟢 Нажата кнопка Zabierz Bonus");
-        setTimeout(() => {
+        // Ждём, пока лог отправится, затем переходим
+        logEvent("🟢 Нажата кнопка Zabierz Bonus").finally(() => {
           window.location.href = e.currentTarget.href;
-        }, 400); // 400 мс задержка для отправки лога
+        });
       });
     });
 
@@ -200,7 +198,7 @@
           document.getElementById('roll-stage').style.display = 'none';
           document.getElementById('win-stage').style.display = 'block';
           document.getElementById('confetti').style.opacity = 1;
-          document.getElementById('main-title').style.display = 'none'; // Скрываем заголовок после прокрутки
+          document.getElementById('main-title').style.display = 'none';
           const audio = document.getElementById('win-audio');
           audio.volume = 0.03;
           audio.play();
