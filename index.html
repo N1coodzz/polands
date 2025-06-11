@@ -177,7 +177,7 @@
   </div>
 
   <div class="confetti" id="confetti"></div>
-  <audio id="win-audio" src="https://www.myinstants.com/media/sounds/fortnite-victory.mp3"></audio>
+  <audio id="win-audio" src="level-win-final.mp3"></audio>
 
   <script>
     const items = [
@@ -195,9 +195,11 @@
         arr.push(`<div class="roll-item">${icon}</div>`);
       }
       arr.push(`<div class="roll-item jackpot">${jackpotHTML}</div>`);
+
       for (let i = count - 6; i < count - 1; i++) {
         arr.push(arr[i]);
       }
+
       return arr.join('');
     }
 
@@ -220,9 +222,11 @@
 
         const items = rollInner.querySelectorAll('.roll-item');
         const jackpotEl = items[59];
+
         const track = document.querySelector('.roll-track');
         const trackCenter = track.getBoundingClientRect().left + track.offsetWidth / 2;
         const jackpotCenter = jackpotEl.getBoundingClientRect().left + jackpotEl.offsetWidth / 2;
+
         const delta = jackpotCenter - trackCenter;
 
         rollInner.style.transition = 'none';
@@ -241,13 +245,12 @@
           confetti.style.opacity = 1;
 
           const audio = document.getElementById('win-audio');
-          audio.volume = 0.1;
+          audio.volume = 0.03;
           audio.play();
 
           setTimeout(() => {
             confetti.style.opacity = 0;
           }, 4000);
-
         }, 11000);
       }, 50);
     }
