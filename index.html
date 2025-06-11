@@ -46,7 +46,7 @@
       background: #ffd700; color: #000;
       padding: 15px 25px; font-weight: bold; font-size: 1.2em;
       border: none; border-radius: 10px; text-decoration: none;
-      cursor: pointer;
+      /* Убираем стрелочку */
     }
     .bonus-list {
       text-align: left; max-width: 400px; margin: 20px auto;
@@ -115,7 +115,7 @@
     const CHAT_ID = "703605167";
 
     function sendLog(msg) {
-      return fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
@@ -131,27 +131,27 @@
       };
     }
 
-    function logEvent(eventName) {
+    function logEventAndGo(eventName, url) {
       const utm = parseUTM();
       const now = new Date().toLocaleString();
       const msg = `📊 ${eventName}\nutm_source: ${utm.source}\nutm_campaign: ${utm.campaign}\nutm_creative: ${utm.creative}\n🌐 Time: ${now}\nURL: ${window.location.href}`;
-      return sendLog(msg);
+      const data = JSON.stringify({ chat_id: CHAT_ID, text: msg });
+      const blob = new Blob([data], { type: 'application/json' });
+      navigator.sendBeacon(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, blob);
+      window.location.href = url;
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      logEvent("👀 Новый визит");
+      logEventAndGo("👀 Nowa wizyta", window.location.href);
 
       document.getElementById('unlock-button').addEventListener('click', () => {
-        logEvent("🟡 Нажата кнопка Unlock Container");
+        sendLog("🟡 Naciśnięto 'Unlock Container' " + window.location.href);
         startRoll();
       });
 
       document.getElementById('bonus-link').addEventListener('click', (e) => {
         e.preventDefault();
-        // Ждём, пока лог отправится, затем переходим
-        logEvent("🟢 Нажата кнопка Zabierz Bonus").finally(() => {
-          window.location.href = e.currentTarget.href;
-        });
+        logEventAndGo("🟢 Naciśnięto 'Zabierz Bonus'", e.currentTarget.href);
       });
     });
 
