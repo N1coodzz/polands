@@ -83,6 +83,10 @@
       justify-content: center;
       align-items: center;
     }
+    .roll-item img {
+      max-width: 50px;
+      max-height: 50px;
+    }
     .jackpot {
       background: gold;
       color: black;
@@ -145,7 +149,13 @@
   </div>
 
   <script>
-    const items = ['🔫', '💼', '🎰', '💣', '🔪'];
+    const items = [
+      '<img src="https://i.imgur.com/0gwqEvT.png" alt="icon1">',
+      '<img src="https://i.imgur.com/UxfHQQ8.png" alt="icon2">',
+      '<img src="https://i.imgur.com/Oeattv2.png" alt="icon3">',
+      '<img src="https://i.imgur.com/z8hpjvs.png" alt="icon4">',
+      '<img src="https://i.imgur.com/1aUaEXH.png" alt="icon5">'
+    ];
 
     function generateRollItems(count, jackpotHTML) {
       const arr = [];
@@ -170,7 +180,6 @@
       const jackpotImage = '<img src="https://i.imgur.com/5GGWprS.png" alt="Jackpot">';
       rollInner.innerHTML = generateRollItems(60, jackpotImage);
 
-      // Ждём, пока элементы отрисуются, затем ищем позицию
       setTimeout(() => {
         const items = rollInner.querySelectorAll('.roll-item');
         const jackpotEl = items[59];
@@ -179,7 +188,6 @@
         const trackCenter = track.getBoundingClientRect().left + track.offsetWidth / 2;
         const jackpotCenter = jackpotEl.getBoundingClientRect().left + jackpotEl.offsetWidth / 2;
 
-        const currentOffset = rollInner.getBoundingClientRect().left;
         const delta = jackpotCenter - trackCenter;
 
         rollInner.style.transition = 'none';
