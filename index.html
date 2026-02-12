@@ -4,12 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mini App</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <!-- cache-busting: меняй v=... когда правишь файлы -->
+  <link rel="stylesheet" href="./styles.css?v=5" />
 </head>
 <body>
   <div class="app">
 
-    <!-- Верхняя шапка -->
     <header class="header">
       <div class="user-card">
         <div class="avatar"></div>
@@ -17,47 +18,49 @@
           <div class="user-name">Профиль</div>
           <div class="user-sub">🟡 Новичок • до 22.02.2026</div>
         </div>
-        <button class="icon-btn" id="openRewards" title="Подарки">🎁</button>
+
+        <!-- добавил класс tap -->
+        <button class="icon-btn tap" id="openRewards" title="Подарки">🎁</button>
       </div>
 
       <div class="quick-actions">
-        <button class="qa">
+        <button class="qa tap">
           <div class="qa-ico">💬</div>
           <div class="qa-txt">База материалов</div>
         </button>
-        <button class="qa">
+        <button class="qa tap">
           <div class="qa-ico">📣</div>
           <div class="qa-txt">Сообщество</div>
         </button>
-        <button class="qa">
+        <button class="qa tap">
           <div class="qa-ico">🗺️</div>
           <div class="qa-txt">Чаты по городам</div>
         </button>
       </div>
     </header>
 
-    <!-- Контент -->
     <main class="content" id="content">
-      <!-- Главная -->
       <section class="screen active" data-screen="home">
         <div class="grid">
-          <div class="card big">
+          <div class="card big tap">
             <div class="card-img"></div>
             <div class="card-title">Формула контента</div>
             <div class="card-meta">20</div>
           </div>
-          <div class="card big">
+
+          <div class="card big tap">
             <div class="card-img"></div>
             <div class="card-title">Эфиры с Мишей</div>
             <div class="card-meta">8</div>
           </div>
 
-          <div class="card big">
+          <div class="card big tap">
             <div class="card-img"></div>
             <div class="card-title">Разборы с кураторами</div>
             <div class="card-meta">7</div>
           </div>
-          <div class="card big">
+
+          <div class="card big tap">
             <div class="card-img"></div>
             <div class="card-title">Реалити Reels</div>
             <div class="card-meta">4</div>
@@ -65,7 +68,6 @@
         </div>
       </section>
 
-      <!-- Сообщество -->
       <section class="screen" data-screen="community">
         <div class="block">
           <h2>Сообщество</h2>
@@ -73,7 +75,6 @@
         </div>
       </section>
 
-      <!-- Избранное -->
       <section class="screen" data-screen="favorites">
         <div class="block">
           <h2>Избранное</h2>
@@ -82,14 +83,12 @@
       </section>
     </main>
 
-    <!-- Нижняя навигация -->
     <nav class="tabbar">
-      <button class="tab active" data-tab="home">🏠<span>Главная</span></button>
-      <button class="tab" data-tab="community">👥<span>Сообщество</span></button>
-      <button class="tab" data-tab="favorites">⭐<span>Избранное</span></button>
+      <button class="tab active tap" data-tab="home">🏠<span>Главная</span></button>
+      <button class="tab tap" data-tab="community">👥<span>Сообщество</span></button>
+      <button class="tab tap" data-tab="favorites">⭐<span>Избранное</span></button>
     </nav>
 
-    <!-- Модалка "Подарки" -->
     <div class="modal-overlay" id="rewardsModal" aria-hidden="true">
       <div class="modal">
         <div class="modal-top">
@@ -97,7 +96,7 @@
             <div class="modal-title">Прогресс разблокировки</div>
             <div class="modal-sub"><span id="progressTxt">1/12</span></div>
           </div>
-          <button class="icon-btn" id="closeRewards">✖</button>
+          <button class="icon-btn tap" id="closeRewards">✖</button>
         </div>
 
         <div class="progress">
@@ -112,7 +111,7 @@
             <div class="reward-head">1 месяц • <span>Новичок</span></div>
             <div class="reward-body">
               <div class="reward-img"></div>
-              <button class="pill" id="claimBtn">ЗАБРАТЬ</button>
+              <button class="pill tap" id="claimBtn">ЗАБРАТЬ</button>
             </div>
           </div>
 
@@ -148,6 +147,6 @@
   </div>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="app.js"></script>
+  <script src="./app.js?v=5"></script>
 </body>
 </html>
