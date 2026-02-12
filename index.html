@@ -5,90 +5,141 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mini App</title>
 
-  <!-- cache-busting: меняй v=... когда правишь файлы -->
-  <link rel="stylesheet" href="./styles.css?v=5" />
+  <!-- cache-busting: увеличивай v=... при изменениях -->
+  <link rel="stylesheet" href="./styles.css?v=9" />
 </head>
 <body>
   <div class="app">
 
+    <!-- Верхняя шапка -->
     <header class="header">
       <div class="user-card">
         <div class="avatar"></div>
+
         <div class="user-info">
-          <div class="user-name">Профиль</div>
-          <div class="user-sub">🟡 Новичок • до 22.02.2026</div>
+          <div class="user-name" id="headerTitle">Профиль</div>
+          <div class="user-sub" id="headerSub">🟡 Новичок • до 22.02.2026</div>
         </div>
 
-        <!-- добавил класс tap -->
+        <!-- кнопка назад (появляется не на home) -->
+        <button class="icon-btn tap hidden" id="backBtn" title="Назад">←</button>
         <button class="icon-btn tap" id="openRewards" title="Подарки">🎁</button>
       </div>
 
+      <!-- Быстрые кнопки -->
       <div class="quick-actions">
-        <button class="qa tap">
+        <button class="qa tap" data-go="materials">
           <div class="qa-ico">💬</div>
           <div class="qa-txt">База материалов</div>
         </button>
-        <button class="qa tap">
+        <button class="qa tap" data-go="community">
           <div class="qa-ico">📣</div>
           <div class="qa-txt">Сообщество</div>
         </button>
-        <button class="qa tap">
+        <button class="qa tap" data-go="chats">
           <div class="qa-ico">🗺️</div>
           <div class="qa-txt">Чаты по городам</div>
         </button>
       </div>
     </header>
 
+    <!-- Контент -->
     <main class="content" id="content">
-      <section class="screen active" data-screen="home">
-        <div class="grid">
-          <div class="card big tap">
-            <div class="card-img"></div>
-            <div class="card-title">Формула контента</div>
-            <div class="card-meta">20</div>
+      <div class="screens">
+
+        <!-- HOME -->
+        <section class="screen active" data-screen="home">
+          <div class="grid">
+            <div class="card big tap">
+              <div class="card-img"></div>
+              <div class="card-title">Формула контента</div>
+              <div class="card-meta">20</div>
+            </div>
+            <div class="card big tap">
+              <div class="card-img"></div>
+              <div class="card-title">Эфиры с Мишей</div>
+              <div class="card-meta">8</div>
+            </div>
+            <div class="card big tap">
+              <div class="card-img"></div>
+              <div class="card-title">Разборы с кураторами</div>
+              <div class="card-meta">7</div>
+            </div>
+            <div class="card big tap">
+              <div class="card-img"></div>
+              <div class="card-title">Реалити Reels</div>
+              <div class="card-meta">4</div>
+            </div>
           </div>
+        </section>
 
-          <div class="card big tap">
-            <div class="card-img"></div>
-            <div class="card-title">Эфиры с Мишей</div>
-            <div class="card-meta">8</div>
+        <!-- MATERIALS -->
+        <section class="screen" data-screen="materials">
+          <div class="block">
+            <h2>База материалов</h2>
+            <p class="muted">Заглушка: список тем / уроков / гайдов.</p>
+
+            <div class="list">
+              <button class="list-item tap">📌 Старт: что делать новичку</button>
+              <button class="list-item tap">🧠 Контент: структура роликов</button>
+              <button class="list-item tap">🎬 Монтаж: шаблоны и приемы</button>
+              <button class="list-item tap">📈 Аналитика: метрики и рост</button>
+            </div>
           </div>
+        </section>
 
-          <div class="card big tap">
-            <div class="card-img"></div>
-            <div class="card-title">Разборы с кураторами</div>
-            <div class="card-meta">7</div>
+        <!-- COMMUNITY -->
+        <section class="screen" data-screen="community">
+          <div class="block">
+            <h2>Сообщество</h2>
+            <p class="muted">Заглушка: посты/ивенты/объявления.</p>
+
+            <div class="list">
+              <button class="list-item tap">🔥 Еженедельный разбор</button>
+              <button class="list-item tap">🎙️ Анонс эфира</button>
+              <button class="list-item tap">🏆 Челлендж недели</button>
+            </div>
           </div>
+        </section>
 
-          <div class="card big tap">
-            <div class="card-img"></div>
-            <div class="card-title">Реалити Reels</div>
-            <div class="card-meta">4</div>
+        <!-- CHATS -->
+        <section class="screen" data-screen="chats">
+          <div class="block">
+            <h2>Чаты по городам</h2>
+            <p class="muted">Заглушка: список городов, потом заменишь на реальные ссылки.</p>
+
+            <div class="grid2">
+              <button class="chip tap">Москва</button>
+              <button class="chip tap">СПб</button>
+              <button class="chip tap">Казань</button>
+              <button class="chip tap">Екатеринбург</button>
+              <button class="chip tap">Новосибирск</button>
+              <button class="chip tap">Минск</button>
+              <button class="chip tap">Алматы</button>
+              <button class="chip tap">Киев</button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="screen" data-screen="community">
-        <div class="block">
-          <h2>Сообщество</h2>
-          <p>Тут будут каналы, темы, события.</p>
-        </div>
-      </section>
+        <!-- FAVORITES -->
+        <section class="screen" data-screen="favorites">
+          <div class="block">
+            <h2>Избранное</h2>
+            <p class="muted">Тут будут сохранённые материалы.</p>
+          </div>
+        </section>
 
-      <section class="screen" data-screen="favorites">
-        <div class="block">
-          <h2>Избранное</h2>
-          <p>Сохранённые материалы и подборки.</p>
-        </div>
-      </section>
+      </div>
     </main>
 
+    <!-- Нижняя навигация -->
     <nav class="tabbar">
       <button class="tab active tap" data-tab="home">🏠<span>Главная</span></button>
       <button class="tab tap" data-tab="community">👥<span>Сообщество</span></button>
       <button class="tab tap" data-tab="favorites">⭐<span>Избранное</span></button>
     </nav>
 
+    <!-- Модалка "Подарки" -->
     <div class="modal-overlay" id="rewardsModal" aria-hidden="true">
       <div class="modal">
         <div class="modal-top">
@@ -100,53 +151,30 @@
         </div>
 
         <div class="progress">
-          <div class="progress-bar" id="progressBar" style="width: 8%"></div>
+          <div class="progress-bar" id="progressBar"></div>
         </div>
 
         <h3 class="section-title">ПОДАРКИ ЗА ПРОДЛЕНИЕ</h3>
-        <p class="muted">Каждый месяц подписки открывает новый уровень с подарком</p>
+        <p class="muted">Прокручивай уровни вправо →</p>
 
-        <div class="rewards">
-          <div class="reward active">
-            <div class="reward-head">1 месяц • <span>Новичок</span></div>
-            <div class="reward-body">
-              <div class="reward-img"></div>
-              <button class="pill tap" id="claimBtn">ЗАБРАТЬ</button>
-            </div>
-          </div>
+        <!-- Горизонтальная лента на 12 уровней -->
+        <div class="rewards-track" id="rewardsTrack"></div>
 
-          <div class="reward locked">
-            <div class="reward-head">2 месяца • <span>Работяга</span></div>
-            <div class="reward-body">
-              <div class="reward-img"></div>
-              <button class="pill" disabled>ЗАКРЫТО</button>
-            </div>
-          </div>
+        <div class="modal-bottom muted">Тапни «Забрать» на доступном уровне</div>
+      </div>
+    </div>
 
-          <div class="reward locked">
-            <div class="reward-head">3 месяца • <span>Микро-блогер</span></div>
-            <div class="reward-body">
-              <div class="reward-img"></div>
-              <button class="pill" disabled>ЗАКРЫТО</button>
-            </div>
-          </div>
-
-          <div class="reward locked">
-            <div class="reward-head">4 месяца • <span>Крепкий орех</span></div>
-            <div class="reward-body">
-              <div class="reward-img"></div>
-              <button class="pill" disabled>ЗАКРЫТО</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-bottom muted">Прокрутите, чтобы увидеть все награды →</div>
+    <!-- Toast -->
+    <div class="toast" id="toast" aria-hidden="true">
+      <div class="toast-card">
+        <div class="toast-dot"></div>
+        <div class="toast-text" id="toastText">Готово</div>
       </div>
     </div>
 
   </div>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="./app.js?v=5"></script>
+  <script src="./app.js?v=9"></script>
 </body>
 </html>
