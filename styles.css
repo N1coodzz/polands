@@ -10,7 +10,6 @@
   --r: 18px;
 }
 
-/* Telegram-like touches */
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color: transparent;
@@ -91,7 +90,6 @@ body{
 
 .content{flex:1; padding:10px 14px 90px}
 
-/* Screens container */
 .screens{position:relative;}
 .screen{
   display:none;
@@ -221,7 +219,7 @@ body{
   outline: 1px solid rgba(244,208,0,.25);
 }
 
-/* MODAL */
+
 .modal-overlay{
   position:fixed;
   inset:0;
@@ -344,7 +342,6 @@ body{
 
 .modal-bottom{margin-top:12px; text-align:center}
 
-/* ===== TELEGRAM-LIKE TAP FEEL ===== */
 .tap{
   user-select:none;
   -webkit-user-select:none;
@@ -373,7 +370,6 @@ body{
   overflow: hidden;
 }
 
-/* Toast */
 .toast{
   position:fixed;
   left:0; right:0; bottom:84px;
