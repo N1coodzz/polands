@@ -5,7 +5,7 @@ if (tg) {
   tg.expand();
 }
 
-// ===== Helpers =====
+
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
@@ -32,7 +32,7 @@ function showToast(text) {
   }, 1700);
 }
 
-// ===== Navigation stack (как в приложении) =====
+
 let currentScreen = "home";
 let screenStack = ["home"];
 
@@ -41,7 +41,7 @@ const headerSub = $("#headerSub");
 const backBtn = $("#backBtn");
 
 function setHeaderFor(screen) {
-  // Можно настроить подписи под каждую страницу
+
   if (screen === "home") {
     headerTitle.textContent = "Профиль";
     headerSub.textContent = "🟡 Новичок • до 22.02.2026";
@@ -66,7 +66,7 @@ function showScreen(screen, push = true) {
 
   screens.forEach(s => s.classList.toggle("active", s.dataset.screen === screen));
 
-  // активность табов только для home/community/favorites
+
   tabs.forEach(t => t.classList.remove("active"));
   const tabToActivate = [...tabs].find(t => t.dataset.tab === screen);
   if (tabToActivate) tabToActivate.classList.add("active");
@@ -78,7 +78,7 @@ function showScreen(screen, push = true) {
   currentScreen = screen;
   setHeaderFor(screen);
 
-  // кнопка назад
+
   if (currentScreen !== "home") backBtn.classList.remove("hidden");
   else backBtn.classList.add("hidden");
 }
@@ -86,7 +86,7 @@ function showScreen(screen, push = true) {
 backBtn.addEventListener("click", () => {
   haptic("light");
   if (screenStack.length > 1) {
-    screenStack.pop(); // убрать текущий
+    screenStack.pop(); 
     const prev = screenStack[screenStack.length - 1] || "home";
     showScreen(prev, false);
   } else {
@@ -94,7 +94,7 @@ backBtn.addEventListener("click", () => {
   }
 }, { passive: true });
 
-// ===== Tabs =====
+
 $$(".tab").forEach(btn => {
   btn.addEventListener("click", () => {
     haptic("light");
@@ -102,7 +102,6 @@ $$(".tab").forEach(btn => {
   }, { passive: true });
 });
 
-// ===== Quick actions (верхние 3 кнопки) =====
 $$(".qa").forEach(btn => {
   btn.addEventListener("click", () => {
     haptic("light");
@@ -111,7 +110,7 @@ $$(".qa").forEach(btn => {
   }, { passive: true });
 });
 
-// ===== Fake interactions on list/chips =====
+
 $$(".list-item").forEach(item => {
   item.addEventListener("click", () => {
     haptic("light");
@@ -126,7 +125,7 @@ $$(".chip").forEach(chip => {
   }, { passive: true });
 });
 
-// ===== Rewards modal =====
+
 const modal = $("#rewardsModal");
 const openRewards = $("#openRewards");
 const closeRewards = $("#closeRewards");
@@ -147,8 +146,6 @@ modal.addEventListener("click", (e) => {
   if (e.target === modal) closeModalFn();
 }, { passive: true });
 
-// ===== Rewards: 12 levels + progress updates =====
-// Тут ты потом подставишь реальный прогресс с бэка/подписки
 let currentLevel = 1;
 const maxLevel = 12;
 
@@ -197,9 +194,9 @@ function updateProgressUI() {
   progressBar.style.width = `${pct}%`;
 }
 
-// Делает прогресс “живым” при скролле ленты
+
 rewardsTrack.addEventListener("scroll", () => {
-  // вычисляем ближайшую карточку слева как "текущий просмотр"
+
   const cards = [...rewardsTrack.children];
   if (!cards.length) return;
 
@@ -215,12 +212,12 @@ rewardsTrack.addEventListener("scroll", () => {
     }
   });
 
-  // обновляем текст прогресса по позиции (визуально приятно)
+ 
   const viewedLevel = bestIdx + 1;
   $("#progressTxt").textContent = `${Math.min(currentLevel, viewedLevel)}/${maxLevel}`;
 }, { passive: true });
 
-// Claim button -> sendData to bot + toast
+
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-claim]");
   if (!btn) return;
