@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mini App</title>
 
-  <link rel="stylesheet" href="./styles.css?v=9" />
+  <link rel="stylesheet" href="./styles.css?v=10" />
 </head>
 <body>
   <div class="app">
@@ -21,7 +21,7 @@
 
 
         <button class="icon-btn tap hidden" id="backBtn" title="Назад">←</button>
-        <button class="icon-btn tap" id="openRewards" title="Подарки">🎁</button>
+        <button class="icon-btn tap reward-btn" id="openRewards" title="Подарки"></button>
       </div>
 
 
@@ -46,29 +46,33 @@
       <div class="screens">
 
         <section class="screen active" data-screen="home">
-          <div class="grid">
-            <div class="card big tap">
-              <div class="card-img"></div>
-              <div class="card-title">Формула контента</div>
-              <div class="card-meta">20</div>
-            </div>
-            <div class="card big tap">
-              <div class="card-img"></div>
-              <div class="card-title">Эфиры с Мишей</div>
-              <div class="card-meta">8</div>
-            </div>
-            <div class="card big tap">
-              <div class="card-img"></div>
-              <div class="card-title">Разборы с кураторами</div>
-              <div class="card-meta">7</div>
-            </div>
-            <div class="card big tap">
-              <div class="card-img"></div>
-              <div class="card-title">Реалити Reels</div>
-              <div class="card-meta">4</div>
-            </div>
-          </div>
-        </section>
+  <div class="grid">
+    <div class="card big tap">
+      <div class="card-img cover formula"></div>
+      <div class="card-title">Формула контента</div>
+      <div class="card-meta">20</div>
+    </div>
+
+    <div class="card big tap">
+      <div class="card-img cover live"></div>
+      <div class="card-title">Эфиры с Мишей</div>
+      <div class="card-meta">8</div>
+    </div>
+
+    <div class="card big tap">
+      <div class="card-img cover review"></div>
+      <div class="card-title">Разборы с кураторами</div>
+      <div class="card-meta">7</div>
+    </div>
+
+    <div class="card big tap">
+      <div class="card-img cover reels"></div>
+      <div class="card-title">Реалити Reels</div>
+      <div class="card-meta">4</div>
+    </div>
+  </div>
+</section>
+
 
 
         <section class="screen" data-screen="materials">
@@ -172,7 +176,7 @@
   </div>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="./app.js?v=9"></script>
+  <script src="./app.js?v=10"></script>
 </body>
 </html>
 
