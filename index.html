@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mini App</title>
 
-  <!-- cache-busting: увеличивай v=... при изменениях -->
   <link rel="stylesheet" href="./styles.css?v=9" />
 </head>
 <body>
   <div class="app">
 
-    <!-- Верхняя шапка -->
     <header class="header">
       <div class="user-card">
         <div class="avatar"></div>
@@ -21,12 +19,12 @@
           <div class="user-sub" id="headerSub">🟡 Новичок • до 22.02.2026</div>
         </div>
 
-        <!-- кнопка назад (появляется не на home) -->
+
         <button class="icon-btn tap hidden" id="backBtn" title="Назад">←</button>
         <button class="icon-btn tap" id="openRewards" title="Подарки">🎁</button>
       </div>
 
-      <!-- Быстрые кнопки -->
+
       <div class="quick-actions">
         <button class="qa tap" data-go="materials">
           <div class="qa-ico">💬</div>
@@ -43,11 +41,10 @@
       </div>
     </header>
 
-    <!-- Контент -->
+
     <main class="content" id="content">
       <div class="screens">
 
-        <!-- HOME -->
         <section class="screen active" data-screen="home">
           <div class="grid">
             <div class="card big tap">
@@ -73,7 +70,7 @@
           </div>
         </section>
 
-        <!-- MATERIALS -->
+
         <section class="screen" data-screen="materials">
           <div class="block">
             <h2>База материалов</h2>
@@ -88,7 +85,7 @@
           </div>
         </section>
 
-        <!-- COMMUNITY -->
+
         <section class="screen" data-screen="community">
           <div class="block">
             <h2>Сообщество</h2>
@@ -102,7 +99,7 @@
           </div>
         </section>
 
-        <!-- CHATS -->
+
         <section class="screen" data-screen="chats">
           <div class="block">
             <h2>Чаты по городам</h2>
@@ -121,7 +118,7 @@
           </div>
         </section>
 
-        <!-- FAVORITES -->
+
         <section class="screen" data-screen="favorites">
           <div class="block">
             <h2>Избранное</h2>
@@ -132,14 +129,14 @@
       </div>
     </main>
 
-    <!-- Нижняя навигация -->
+
     <nav class="tabbar">
       <button class="tab active tap" data-tab="home">🏠<span>Главная</span></button>
       <button class="tab tap" data-tab="community">👥<span>Сообщество</span></button>
       <button class="tab tap" data-tab="favorites">⭐<span>Избранное</span></button>
     </nav>
 
-    <!-- Модалка "Подарки" -->
+
     <div class="modal-overlay" id="rewardsModal" aria-hidden="true">
       <div class="modal">
         <div class="modal-top">
@@ -157,14 +154,14 @@
         <h3 class="section-title">ПОДАРКИ ЗА ПРОДЛЕНИЕ</h3>
         <p class="muted">Прокручивай уровни вправо →</p>
 
-        <!-- Горизонтальная лента на 12 уровней -->
+
         <div class="rewards-track" id="rewardsTrack"></div>
 
         <div class="modal-bottom muted">Тапни «Забрать» на доступном уровне</div>
       </div>
     </div>
 
-    <!-- Toast -->
+
     <div class="toast" id="toast" aria-hidden="true">
       <div class="toast-card">
         <div class="toast-dot"></div>
@@ -178,3 +175,4 @@
   <script src="./app.js?v=9"></script>
 </body>
 </html>
+
