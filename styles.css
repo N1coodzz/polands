@@ -47,10 +47,17 @@ body{
 }
 
 .avatar{
-  width:38px;height:38px;border-radius: 12px;
-  background: radial-gradient(circle at 30% 30%, #2b2b35, #131319);
-  border:1px solid var(--border);
+  width:38px;
+  height:38px;
+  border-radius: 12px;
+
+  background-image: url("./assets/avatar.jpg");
+  background-size: cover;
+  background-position: center;
+
+  border:1px solid rgba(255,255,255,.10);
 }
+
 
 .user-info{flex:1; min-width:0}
 .user-name{font-weight:800}
@@ -124,9 +131,11 @@ body{
 .card-img{
   height:90px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(244,208,0,.2), rgba(255,255,255,.04));
-  border:1px solid rgba(244,208,0,.15);
+  border:1px solid rgba(255,255,255,.07);
+  background-size: cover;
+  background-position: center;
 }
+
 
 .card-title{margin-top:10px; font-weight:800; font-size:13px}
 .card-meta{
@@ -401,3 +410,41 @@ body{
   background: var(--accent);
 }
 .toast-text{font-weight:800; font-size:13px}
+
+.cover{
+  height:90px;
+  border-radius: 14px;
+  background-size: cover;
+  background-position: center;
+  border:1px solid rgba(255,255,255,.07);
+}
+
+.cover.formula{
+  background-image: url("./assets/formula.jpg");
+}
+
+.cover.live{
+  background-image: url("./assets/live.jpg");
+}
+
+.cover.review{
+  background-image: url("./assets/review.jpg");
+}
+
+.cover.reels{
+  background-image: url("./assets/reels.jpg");
+}
+
+.reward-btn{
+  width:36px;
+  height:36px;
+
+  background-color: rgba(255,255,255,.06);
+  background-image: url("./assets/gift.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+
+  border-radius: 12px;
+}
+
